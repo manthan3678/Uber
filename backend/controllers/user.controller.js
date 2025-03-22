@@ -46,9 +46,16 @@ module.exports.loginUser = async (req, res, next) => {
   const token = jwt.sign({ _id: userData._id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
+  res.cookie("token", token);
   return res.status(200).json({
     token,
     userData,
     message: "Login SuccessFull",
   });
+};
+
+// !!!!!!!!!!!! get User Profile !!!!!!!!!!!
+module.exports.getUserProfile = async (req, res, next) => {
+  res.status(200).json(req.userdata);
+  // console.log(req.userdata);
 };

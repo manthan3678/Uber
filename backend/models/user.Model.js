@@ -29,7 +29,8 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-//  !#$* This Function Is moved in the another folder that is auth helper !@#*
+//  !@#$* This Function Is moved in the another folder that is auth helper !@$#*
+
 // userSchema.methods.generateAuthToken = function () {
 //   const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET);
 //   return token;

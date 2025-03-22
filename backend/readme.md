@@ -46,3 +46,49 @@ This endpoint registers a new user.
   }
 }
 ```
+
+# /user/login Endpoint Documentation
+
+**Description:**  
+This endpoint authenticates a user and returns a JWT token upon successful login.
+
+**Method:** POST  
+**URL:** /user/login
+
+**Request Body:**
+
+- `email`: (string, required, valid email)
+- `password`: (string, required, minimum 6 characters)
+
+**Responses:**
+
+- **200 OK:**  
+  Returns a JSON object containing:
+  - `token`: JWT token.
+  - `userData`: Authenticated user data.
+  - `message`: Success message.
+- **400 Bad Request:**  
+  Returns a JSON object with validation error details.
+- **401 Unauthorized:**  
+  Returned if the email or password is invalid.
+
+**Example Request:**
+
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+```
+
+**Example Response (200 OK):**
+
+```json
+{
+  "token": "jwt.token.here",
+  "userData": {
+    // user details...
+  },
+  "message": "Login SuccessFull"
+}
+```
