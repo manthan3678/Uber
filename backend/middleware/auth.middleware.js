@@ -7,6 +7,12 @@ module.exports.authUser = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "Unauthorized Token Is Not There" });
   }
+  const isBlackList = await user.findOne({ token: token });
+  if (isBlackList) {
+    return res.status(401).json({
+      message: "Unauthorized Blacklist",
+    });
+  }
   try {
     //   yaha sirf id milegi
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

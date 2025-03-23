@@ -92,3 +92,54 @@ This endpoint authenticates a user and returns a JWT token upon successful login
   "message": "Login SuccessFull"
 }
 ```
+
+# /user/profile Endpoint Documentation
+
+**Description:**  
+Returns the profile details of the authenticated user.
+
+**Method:** GET  
+**URL:** /user/profile  
+**Headers:**
+
+- Authorization: Bearer token
+
+**Responses:**
+
+- **200 OK:**  
+  Returns a JSON object containing the user profile data.
+
+**Example Response:**
+
+```json
+{
+  "id": "user_id",
+  "firstname": "John",
+  "lastname": "Doe"
+  // ...other user details...
+}
+```
+
+# /user/logout Endpoint Documentation
+
+**Description:**  
+Logs out the user by clearing the authentication cookie and blacklisting the token.
+
+**Method:** GET  
+**URL:** /user/logout  
+**Headers:**
+
+- Authorization: Bearer token
+
+**Responses:**
+
+- **200 OK:**  
+  Returns a JSON object with a success message.
+
+**Example Response:**
+
+```json
+{
+  "message": "Logout Success"
+}
+```

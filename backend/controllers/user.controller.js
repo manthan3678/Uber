@@ -3,6 +3,8 @@ const userService = require("../services/user.services");
 const authhelper = require("../helper/authhelper");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
+const blaclListTokenModel = require("../models/blackListToken.model");
+const blackListTokenModel = require("../models/blackListToken.model");
 //  !!!!!!!!!11 REgister Controller !!!!!!!!!!!!
 module.exports.registerUser = async (req, res, next) => {
   const error = validationResult(req);
@@ -44,7 +46,7 @@ module.exports.loginUser = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid email or password" });
   }
   const token = jwt.sign({ _id: userData._id }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
+    expiresIn: "24h",
   });
   res.cookie("token", token);
   return res.status(200).json({
@@ -58,4 +60,12 @@ module.exports.loginUser = async (req, res, next) => {
 module.exports.getUserProfile = async (req, res, next) => {
   res.status(200).json(req.userdata);
   // console.log(req.userdata);
+};
+
+// Logout
+module.exports.logoutUser = async (req, res, next) => {
+  res.clearCookie("token");
+  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+  await blackListTokenModel.create({ token });
+  res.status(200).json({ message: "Logout Success" });
 };
