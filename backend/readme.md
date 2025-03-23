@@ -143,3 +143,63 @@ Logs out the user by clearing the authentication cookie and blacklisting the tok
   "message": "Logout Success"
 }
 ```
+
+# /captain/register Endpoint Documentation
+
+**Description:**  
+Registers a new captain (driver). Note: In this system, "captain" refers to a driver.
+
+**Method:** POST  
+**URL:** /captain/register
+
+**Request Body:**
+
+- `fullname`: Object containing:
+  - `firstname` (string, required, minimum 3 characters)
+  - `lastname` (string, required, minimum 3 characters)
+- `email`: (string, required, valid email)
+- `password`: (string, required, minimum 6 characters)
+- `vehicle`: Object containing:
+  - `color` (string, required, minimum 3 characters)
+  - `plate` (string, required, minimum 3 characters)
+  - `capacity` (number, required, minimum 1)
+  - `vehicleType` (string, required, one of "car", "motorcycle", "auto")
+
+**Responses:**
+
+- **200 OK:**  
+  Returns a JSON object containing:
+  - `token`: JWT token.
+  - `captainData`: Registered captain (driver) details.
+- **400 Bad Request:**  
+  Returns a JSON object with validation error details.
+
+**Example Request:**
+
+```json
+{
+  "fullname": {
+    "firstname": "Alice",
+    "lastname": "Smith"
+  },
+  "email": "alice.smith@example.com",
+  "password": "securePass123",
+  "vehicle": {
+    "color": "red",
+    "plate": "XYZ123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+**Example Response (200 OK):**
+
+```json
+{
+  "token": "jwt.token.here",
+  "captainData": {
+    // captain (driver) details...
+  }
+}
+```
