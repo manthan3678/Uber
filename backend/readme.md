@@ -203,3 +203,59 @@ Registers a new captain (driver). Note: In this system, "captain" refers to a dr
   }
 }
 ```
+
+# /captain/profile Endpoint Documentation
+
+**Description:**  
+Returns the profile details of the authenticated captain.
+
+**Method:** GET  
+**URL:** /captain/profile  
+**Headers:**
+
+- Authorization: Bearer token
+
+**Responses:**
+
+- **200 OK:**  
+  Returns a JSON object containing the captain profile data.
+
+**Example Response:**
+
+```json
+{
+  "id": "captain_id",
+  "firstname": "Alice",
+  "lastname": "Smith",
+  "vehicle": {
+    "color": "red",
+    "plate": "XYZ123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+# /captain/logout Endpoint Documentation
+
+**Description:**  
+Logs out the captain by clearing the authentication cookie and blacklisting the token.
+
+**Method:** GET  
+**URL:** /captain/logout  
+**Headers:**
+
+- Authorization: Bearer token
+
+**Responses:**
+
+- **200 OK:**  
+  Returns a JSON object with a success message.
+
+**Example Response:**
+
+```json
+{
+  "message": "Logout Success Captain"
+}
+```

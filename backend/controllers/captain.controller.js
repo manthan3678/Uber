@@ -3,6 +3,8 @@ const captainService = require("../services/captain.services");
 const { validationResult } = require("express-validator");
 const authhelper = require("../helper/authhelper");
 const jwt = require("jsonwebtoken");
+const blackListTokenModel = require("../models/blackListToken.model");
+
 //
 module.exports.registerCaptain = async (req, res, next) => {
   const errors = validationResult(req);
@@ -35,4 +37,47 @@ module.exports.registerCaptain = async (req, res, next) => {
     token,
     captianData,
   });
+};
+//
+module.exports.loginCaptain = async (req, res, next) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res.status(400).json({
+      error: error.array(),
+    });
+  }
+  const { email, password } = req.body;
+  const captainData = await captain.findOne({ email }).select("+password");
+  if (!captainData) {
+    return res.status(401).json({ message: "InValid Email" });
+  }
+  const isMatch = await authhelper.copmarePassword(
+    password,
+    captainData.password
+  );
+
+  if (!isMatch) {
+    return res.status(401).json({ message: "Invalid Password" });
+  }
+
+  const token = jwt.sign({ id: captainData._id }, process.env.JWT_SECRET, {
+    expiresIn: "24h",
+  });
+  res.cookie("token", token);
+  return res
+    .status(200)
+    .json({ message: "Captain Login SuccessFull", token, captainData });
+};
+//Get Profile OF Captain
+module.exports.getCaptainProfile = async (req, res, next) => {
+  console.log(req.captaindata);
+  return res.status(200).json(req.captaindata);
+};
+// Logout Captain
+module.exports.logoutCaptain = async (req, res, next) => {
+  res.clearCookie("token");
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+  await blackListTokenModel.create({ token });
+
+  return res.status(200).json({ message: "Logout Success Captain" });
 };
