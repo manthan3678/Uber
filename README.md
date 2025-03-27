@@ -1,2 +1,1 @@
-# UberPractice
-Uber Practice
+# Uber
