@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const blackListTokenModel = require("../models/blackListToken.model");
 const captain = require("../models/captian.model");
-//
+// !!!!!!! user Logout
 module.exports.authUser = async (req, res, next) => {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
   if (!token) {
@@ -14,7 +14,7 @@ module.exports.authUser = async (req, res, next) => {
   const isBlackList = await blackListTokenModel.findOne({ token: token });
   if (isBlackList) {
     return res.status(401).json({
-      message: "Unauthorized Blacklist",
+      message: "Unauthorized, Blacklist is there",
     });
   }
   try {
@@ -29,7 +29,7 @@ module.exports.authUser = async (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized Access User" });
   }
 };
-//
+// !!!!!!! Captain Logout
 module.exports.authCaptain = async (req, res, next) => {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 

@@ -60,7 +60,7 @@ module.exports.loginCaptain = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid Password" });
   }
 
-  const token = jwt.sign({ id: captainData._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ _id: captainData._id }, process.env.JWT_SECRET, {
     expiresIn: "24h",
   });
   res.cookie("token", token);

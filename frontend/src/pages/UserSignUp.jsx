@@ -1,27 +1,44 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { userDataContext } from "../context/UserContext";
 const UserSignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userData, setUserData] = useState({});
-  const handleSubmit = (e) => {
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  // const [userData, setUserData] = useState({});
+  //
+  const navigate = useNavigate();
+  const [user, setUser] = React.useContext(userDataContext);
+  //
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setUserData({
-      fullName: {
-        firstName: "",
-        lastName: "",
+    const newUser = {
+      fullname: {
+        firstname: firstname,
+        lastname: lastname,
       },
       email: email,
       password: password,
-    });
+    };
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/user/register`,
+      newUser
+    );
+
+    if (response.status === 200) {
+      const data = response.data;
+      // console.log(data.userData);
+      setUser(data.userData);
+      navigate("/login");
+    }
+    //
     setEmail("");
     setPassword("");
     setFirstName("");
     setLastName("");
-    console.log(userData);
   };
   return (
     <>
@@ -40,7 +57,7 @@ const UserSignUp = () => {
                 required
                 className="bg-[#eeeeee] rounded px-4 py-2 border w-1/2 text-lg placeholder:text-base"
                 placeholder="FirstName"
-                value={firstName}
+                value={firstname}
                 onChange={(e) => setFirstName(e.target.value)}
               />
               <input
@@ -48,7 +65,7 @@ const UserSignUp = () => {
                 required
                 className="bg-[#eeeeee] rounded px-4 py-2 border w-1/2 text-lg placeholder:text-base"
                 placeholder="LastName"
-                value={lastName}
+                value={lastname}
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
