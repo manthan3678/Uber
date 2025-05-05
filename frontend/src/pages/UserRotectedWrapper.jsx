@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const UserRotectedWrapper = ({ children }) => {
   const token = localStorage.getItem("token");
-  console.log(token);
+  // console.log(token);
   //   const [user] = useContext(userDataContext);
   const navigate = useNavigate();
   useEffect(() => {
